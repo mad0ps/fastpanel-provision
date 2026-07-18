@@ -6,6 +6,14 @@ FastPanel's default installer brings up a full stack **and** leaves FTP (`proftp
 
 One script, run once on a clean box. Interactive by default; fully scriptable for unattended runs.
 
+## Quick start
+
+Copy-paste this on a fresh server (as root) and follow the prompts:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mad0ps/fastpanel-provision/main/fastpanel-provision.sh -o fp-setup.sh && bash fp-setup.sh
+```
+
 ## What it does
 
 1. **Preflight** — checks it's running as root on a clean Ubuntu 22.04/24.04, runs `apt update && upgrade`, installs prerequisites (`wget`, `whiptail`).
@@ -26,14 +34,9 @@ One script, run once on a clean box. Interactive by default; fully scriptable fo
 
 ### Interactive (recommended)
 
-Download first, then run — an interactive TUI can't read your input through a `curl | bash` pipe, because stdin is busy carrying the script:
+The [Quick start](#quick-start) one-liner above is all you need. It downloads the script, then runs it — you'll be asked for your SSH key, PHP versions (space toggles, Enter confirms), and optional SMTP relay.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/mad0ps/fastpanel-provision/main/fastpanel-provision.sh -o fp-setup.sh
-bash fp-setup.sh
-```
-
-You'll be asked for your SSH key, PHP versions (space toggles, Enter confirms), and optional SMTP relay.
+> **Why download-then-run and not `curl … | bash`?** The interactive menus read your keystrokes from the terminal. In a `curl … | bash` pipe, stdin is busy carrying the script itself, so the menus can't see your input. Running from a saved file keeps the terminal free — which is why the one-liner uses `-o fp-setup.sh && bash fp-setup.sh` instead of a pipe.
 
 ### Unattended
 
